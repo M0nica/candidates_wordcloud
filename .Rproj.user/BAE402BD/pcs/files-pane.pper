@@ -1,0 +1,9 @@
+{
+    "path" : "~/Documents/all_candidates",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}
