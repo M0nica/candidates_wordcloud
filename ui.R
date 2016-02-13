@@ -21,7 +21,7 @@ shinyUI(fluidPage(
                   selected = "Percent White"),
       sliderInput("wordCount", 
                   label = "Amount of words to display",
-                  min = 5, max = 300, value = 150)
+                  min = 5, max = 300, value = 230)
      ,
       
    sliderInput("range", 
