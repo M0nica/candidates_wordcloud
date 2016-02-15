@@ -16,8 +16,9 @@ shinyUI(fluidPage(
       
       selectInput("var", 
                   label = "Choose a variable to display",
-                  choices = c("Hillary Clinton", "Bernie Sanders", "Jeb Bush", "John Kasich",
-                              "Ted Cruz", "Marco Rubio","Donald Trump", "Ben Carson", "Chris Christie", "Carly Fiorina"),
+                  choices = c("Hillary Clinton", "Bernie Sanders", "Ted Cruz", "Donald Trump", "Marco Rubio"),
+                              #, "Jeb Bush", "John Kasich",
+                              #"Ted Cruz", "Marco Rubio","Donald Trump", "Ben Carson", "Chris Christie", "Carly Fiorina"),
                   selected = "Percent White"),
       sliderInput("wordCount", 
                   label = "Amount of words to display",
