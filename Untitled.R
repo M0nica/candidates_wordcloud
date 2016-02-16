@@ -27,3 +27,4 @@ TedTotals <- rbind(TedCruz, TedCruz_wo)
 MarcoRubio<- tweets_shiny.df[grep("Marco Rubio", tweets_shiny.df$text), ]
 MarcoRubio_wo <- tweets_shiny.df[grep("MarcoRubio", tweets_shiny.df$text), ]
 MarcoTotals <- rbind(MarcoRubio, MarcoRubio_wo)
+#load(MarcoTotals)

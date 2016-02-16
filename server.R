@@ -62,7 +62,7 @@ shinyServer(function(input, output) {
     else if  (input$var == 'Marco Rubio'){
       corpus <-MarcoCorpus
     }
-    wordcloud(corpus, max.words = input$wordCount, random.order = FALSE,scale=c(3.75,.05), min.freq=1, colors=brewer.pal(8, "Blues"))
+    wordcloud(corpus, max.words = input$wordCount, random.order = FALSE,scale=c(3.75,.05), min.freq=2, colors=brewer.pal(8, "Blues"))
   })
   
 
