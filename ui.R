@@ -21,13 +21,13 @@ shinyUI(fluidPage(
                               #"Ted Cruz", "Marco Rubio","Donald Trump", "Ben Carson", "Chris Christie", "Carly Fiorina"),
                   selected = "Percent White"),
       sliderInput("wordCount", 
-                  label = "Amount of words to display",
-                  min = 5, max = 300, value = 230)
-     ,
+                  label = "Max words to display",
+                  min = 5, max = 250, value = 100)
+  #   ,
       
-   sliderInput("range", 
-                label = "Range of time",
-                  min = 0, max = 200, value = c(0, 200))
+#    sliderInput("range", 
+#                 label = "Range of time",
+#                   min = 0, max = 200, value = c(0, 200))
      ),
     
     mainPanel(

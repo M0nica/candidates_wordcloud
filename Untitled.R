@@ -1,4 +1,4 @@
-#tweets_shiny.df <- parseTweets("all_candidates.json", simplify = TRUE)
+tweets_shiny.df <- parseTweets("all_candidates.json", simplify = TRUE)
 #make tweets go to lowercase 
 HillaryClinton <- tweets_shiny.df[grep("Hillary Clinton", tweets_shiny.df$text), ]
 HillaryClinton_wo <- tweets_shiny.df[grep("HillaryClinton", tweets_shiny.df$text), ]

@@ -20,7 +20,8 @@ tweets_shiny.df <- parseTweets("all_candidates.json", simplify = TRUE)
 
 toCorpus <- function(dframe) {
   text <- sapply(dframe$text, function(row) iconv(row, "latin1", "ASCII", sub = ""))
-  
+  #removes all http from text
+  text <- gsub("(f|ht)tp(s?)://(.*)[.][a-z]+", "", text)
   TweetCorpus <- paste(unlist(text), collapse =" ") 
   TweetCorpus <- Corpus(VectorSource(TweetCorpus))
   TweetCorpus <- tm_map(TweetCorpus, PlainTextDocument)
@@ -30,7 +31,7 @@ toCorpus <- function(dframe) {
   TweetCorpus <- tm_map(TweetCorpus, content_transformer(tolower),lazy=TRUE)
   TweetCorpus <- tm_map(TweetCorpus, PlainTextDocument)
   #want to remove candidates from their own wordcloud
-  TweetCorpus <- tm_map(TweetCorpus, removeWords, c("like","will", "president", "say", "realjameswood", "for", "think", "the", "dont", "new", "amp", "get", "now","via", "this", "presid", "end", "while", "doesnt", "httpstcoau9loazlxp", "https", "chrischristi", "that", "httpstco", "httpst", "http", "car", "chris", "christi", "hillaryclinton","johnkasich", "marcorubio", "hillari", "carlyfiorina", "fiorina", "hillary",  "berniesand", "sander", "berni", "realdonaldtrump", "bernie", "sanders", "donald", "trump", "clinton", 
+ TweetCorpus <- tm_map(TweetCorpus, removeWords, c("like","will", "president", "say", "realjameswood", "for", "think", "the", "dont", "new", "amp", "get", "now","via", "this", "presid", "end", "while", "doesnt", "httpstcoau9loazlxp",  "httpstcoatbyuvqbkp", "https", "chrischristi", "that", "httpstco", "httpst", "http", "car", "chris", "christi", "hillaryclinton","johnkasich", "marcorubio", "hillari", "carlyfiorina", "fiorina", "hillary",  "berniesand", "sander", "berni", "realdonaldtrump", "bernie", "sanders", "donald", "trump", "clinton", 
                                                    "hillary clinton", "bernie sanders", "jeb bush", "marco rubio", "ted cruz", "donald trump", "john kasich", "ben carson", "chris christie", "carly fiorina", "hillaryclinton", 
                                              "jebbush", "berniesanders", "marcorubio", "chrischristie", "bencarson", "johnkasich", "donaldtrump", "tedcruz", "carlyfiorina"
   ))
@@ -61,19 +62,34 @@ shinyServer(function(input, output) {
     else if  (input$var == 'Marco Rubio'){
       corpus <-MarcoCorpus
     }
-    wordcloud(corpus, max.words = input$wordCount, random.order = FALSE,scale=c(3.5,.05), min.freq=1, colors=brewer.pal(8, "Blues"))
+    wordcloud(corpus, max.words = input$wordCount, random.order = FALSE,scale=c(3.75,.05), min.freq=1, colors=brewer.pal(8, "Blues"))
   })
   
 
  output$freq_plot<- renderPlot({
    #times <- sapply(tweets_shiny.df$text, function(row) iconv(row, "latin1", "ASCII", sub = "input$var"))
  #hist(times, breaks="secs")
-   tweets_shiny.df$text <- sapply(tweets_shiny.df$text, function(row) iconv(row, "latin1", "ASCII", sub = input$var))
-   times <- as.POSIXct(tweets_shiny.df$created_at, format="%a %b %d %H:%M:%S %z %Y")
+  # tweets_shiny.df$text <- sapply(tweets_shiny.df$text, function(row) iconv(row, "latin1", "ASCII", sub = input$var))
+   
+  # tweets_shiny.df$created_at <- as.POSIXct(tweets_shiny.df$created_at, format="%a %b %d %H:%M:%S %z %Y")
  #  times <- as.POSIXct(tweets_shiny.df$created_at, format="%a %b %d %H:%M:%S %z %Y")
    
    
+   if (input$var == "Hillary Clinton"){
+     filename <- HillaryTotals
+   } else if (input$var == 'Bernie Sanders'){
+     filename <- BernieTotals
+   } else if (input$var == 'Ted Cruz'){
+     filename <- TedTotals
+   }
+   else if  (input$var == 'Donald Trump'){
+     filename <-DonaldTotals
+   }
+   else if  (input$var == 'Marco Rubio'){
+     filename <-MarcoTotals
+   }
    
+   times <- as.POSIXct(filename$created_at, format="%a %b %d %H:%M:%S %z %Y")
    hist(times, breaks=35)
  
  #  hist(times, breaks=10)
@@ -81,6 +97,8 @@ shinyServer(function(input, output) {
   })
   
 
+ 
+ 
   output$info_click <- renderText({
     paste0("x=", input$plot_click$x, "\ny=", input$plot_click$y)
   })
