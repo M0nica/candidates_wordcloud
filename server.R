@@ -3,20 +3,15 @@
 library(streamR)
 library(tm)
 library(wordcloud)
-source("Untitled.R")
+source("parse.R")
 
+#used static data as opposed to streaming!
 #load("my_oauth.Rdata")
 #load("all_candidates.json")
 
 tweets_shiny.df <- parseTweets("all_candidates.json", simplify = TRUE)
-# 
-# HillaryClinton <- tweets_shiny.df[grep("Hillary Clinton", tweets_shiny.df$text), ]
-# HillaryClinton_wo <- tweets_shiny.df[grep("HillaryClinton", tweets_shiny.df$text), ]
-# HillaryTotals <- rbind(HillaryClinton, HillaryClinton_wo)
-# 
-# BernieSanders<- tweets_shiny.df[grep("Bernie Sanders", tweets_shiny.df$text), ]
-# BernieSanders_wo <- tweets_shiny.df[grep("BernieSanders", tweets_shiny.df$text), ]
-# BernieTotals <- rbind(BernieSanders, BernieSanders_wo)
+
+#creates a wordcloud from input dataframe
 
 toCorpus <- function(dframe) {
   text <- sapply(dframe$text, function(row) iconv(row, "latin1", "ASCII", sub = ""))
@@ -38,13 +33,15 @@ toCorpus <- function(dframe) {
   return(TweetCorpus)
 }
 
+#creates wordcloud for each candidate
 BernieCorpus <- toCorpus(BernieTotals)
 HillaryCorpus <- toCorpus(HillaryTotals)
 TedCorpus <- toCorpus(TedTotals)
 MarcoCorpus <- toCorpus(MarcoTotals)
 DonaldCorpus <- toCorpus(DonaldTotals)
 
-#  times <- as.POSIXct(tweets_shiny.df$created_at, format="%a %b %d %H:%M:%S %z %Y")
+
+#logic behind the UI of the R application
 
 shinyServer(function(input, output) {
   
@@ -67,12 +64,6 @@ shinyServer(function(input, output) {
   
 
  output$freq_plot<- renderPlot({
-   #times <- sapply(tweets_shiny.df$text, function(row) iconv(row, "latin1", "ASCII", sub = "input$var"))
- #hist(times, breaks="secs")
-  # tweets_shiny.df$text <- sapply(tweets_shiny.df$text, function(row) iconv(row, "latin1", "ASCII", sub = input$var))
-   
-  # tweets_shiny.df$created_at <- as.POSIXct(tweets_shiny.df$created_at, format="%a %b %d %H:%M:%S %z %Y")
- #  times <- as.POSIXct(tweets_shiny.df$created_at, format="%a %b %d %H:%M:%S %z %Y")
    
    
    if (input$var == "Hillary Clinton"){
@@ -89,20 +80,22 @@ shinyServer(function(input, output) {
      filename <-MarcoTotals
    }
    
+   
+   #displays histogram associated with input filename
    times <- as.POSIXct(filename$created_at, format="%a %b %d %H:%M:%S %z %Y")
    hist(times, breaks=35)
  
- #  hist(times, breaks=10)
-   #xlim= (input$range))
   })
   
 
  
- 
+ #shows users where their cursor is currently
   output$info_click <- renderText({
     paste0("x=", input$plot_click$x, "\ny=", input$plot_click$y)
   })
   
+  
+  #lets users know which candidate they have selected and who's data they are looking at
   output$text1 <- renderText({ 
     paste("You have selected ", input$var)
   })

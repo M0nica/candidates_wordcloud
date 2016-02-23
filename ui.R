@@ -14,20 +14,16 @@ shinyUI(fluidPage(
     sidebarPanel(
       helpText("Choose a specific candidate, visualize their wordcloud"),
       
+      #users select which candidate they would like to visualize
       selectInput("var", 
                   label = "Choose a variable to display",
                   choices = c("Hillary Clinton", "Bernie Sanders", "Ted Cruz", "Donald Trump", "Marco Rubio"),
-                              #, "Jeb Bush", "John Kasich",
-                              #"Ted Cruz", "Marco Rubio","Donald Trump", "Ben Carson", "Chris Christie", "Carly Fiorina"),
                   selected = "Percent White"),
+      #users can choose the maximum amount of words they would like the wordcloud to display
       sliderInput("wordCount", 
                   label = "Max words to display",
                   min = 5, max = 250, value = 100)
-  #   ,
-      
-#    sliderInput("range", 
-#                 label = "Range of time",
-#                   min = 0, max = 200, value = c(0, 200))
+
      ),
     
     mainPanel(
