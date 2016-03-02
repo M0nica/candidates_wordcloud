@@ -1,5 +1,6 @@
 # candidates_wordcloud_NH
 generates wordclouds from tweets for presidential candidates (Shiny App)
+url: https://monicapowell.shinyapps.io/all_candidates/
 
 The Shiny application in the all_candidates folder visualizes 1120 tweets that were streamed from Twitter over 30 minutes. 
 with the following keywords: 
